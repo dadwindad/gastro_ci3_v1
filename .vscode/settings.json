@@ -1,0 +1,6 @@
+{
+  // "intelephense.diagnostics.undefinedProperties": true,
+  "files.autoSaveDelay": 5000,
+  "editor.tabCompletion": "on",
+  "emmet.triggerExpansionOnTab": true
+}

@@ -1,0 +1,28 @@
+body {
+  line-height: normal !important;
+}
+
+.footer-bar-5 span {
+  padding-top: 10px;
+}
+
+.project-info {
+  font-family: "Kanit";
+}
+
+#modal-info-content {
+  margin-bottom: 10px;
+  line-height: 18px;
+}
+#layer-control-culture-map {
+  height: 600px;
+}
+
+.page-content {
+  padding-bottom: 50px !important;
+}
+
+.menu-items a:hover {
+  font-weight: bolder !important;
+  background-color: bisque !important;
+}
