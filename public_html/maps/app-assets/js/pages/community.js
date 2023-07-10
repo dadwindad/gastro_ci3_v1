@@ -4,9 +4,36 @@ async function fetchDataComm(table) {
 	const response = await fetch(`/maps/${table}/json`);
 	const jSondata = await response.json();
 
+	const folder = await fetch(`/maps/file/getallfile/`);
+	const jSonFolder = await folder.json();
+
 	jSondata.forEach(function (params) {
+		let image = new Image();
+		let zone = params.comm_id.substring(0, 3);
+		let subid = params.comm_id.substring(3, 7);
+		let path = zone + "/" + subid;
+
+		try {
+
+			//find first image
+			let img = jSonFolder[zone + "/"][subid + "/"]["community/"][0];
+			image.src = `/mobile/images/map/${path}/community/${img}`;
+			
+			//console.log("img : "+img);
+
+			if (img) {
+				path = `<img src='${image.src}' width='150'></img>`;
+			} else {
+				path = `ไม่พบภาพ`;
+			}
+
+		}catch (error) {
+				path = `ไม่พบภาพ`;
+		}
+
 		let data = [
 			"",
+			path,
 			params.comm_name,
 			params.comm_detail,
 			params.comm_lat,
@@ -94,7 +121,7 @@ async function genDataTable() {
 								let editDOM = $(this);
 								var data = dt_filter.row(editDOM.parents("tr")).data();
 
-								var url = `https://www.google.com/maps/search/?api=1&query=${data[3]},${data[4]}`;
+								var url = `https://www.google.com/maps/search/?api=1&query=${data[4]},${data[5]}`;
 								window.open(url, "_blank");
 							});
 
@@ -120,7 +147,7 @@ async function genDataTable() {
 									if (result.value) {
 										//delete data on DB
 										$.ajax({
-											url: `/maps/community/delete/${data[5]}`,
+											url: `/maps/community/delete/${data[6]}`,
 											type: "DELETE",
 											success: function (result) {
 												dt_filter.row(editDOM.parents("tr")).remove().draw();
@@ -137,7 +164,7 @@ async function genDataTable() {
 								var data = dt_filter.row(editDOM.parents("tr")).data();
 								
 								$.ajax({
-									url: `/maps/community/find_last_id/${data[5]}`,
+									url: `/maps/community/find_last_id/${data[6]}`,
 									type: "GET",
 									success: function (result) {
 
@@ -150,12 +177,12 @@ async function genDataTable() {
 									},
 								});
 								
-								$("#ed_comm_id").val(data[5]); //comm_id
-								$("#ed_comm_name").val(data[1]); //comm_name
-								$("#ed_comm_detail").val(data[2]); //comm_detail
-								$("#ed_comm_lat").val(data[3]); //comm_lat
-								$("#ed_comm_long").val(data[4]); //comm_long
-
+								
+								$("#ed_comm_name").val(data[2]); //comm_name
+								$("#ed_comm_detail").val(data[3]); //comm_detail
+								$("#ed_comm_lat").val(data[4]); //comm_lat
+								$("#ed_comm_long").val(data[5]); //comm_long
+								$("#ed_comm_id").val(data[6]); //comm_id
 							});
 
 						},
@@ -242,6 +269,7 @@ $("#addNewForm").submit(function (e) {
 			// console.log(params);
 			var data = [
 				"",
+				"",//	path,
 				params[1].comm_name,
 				params[1].comm_detail,
 				params[1].comm_lat,
@@ -265,7 +293,9 @@ $("#editNewForm").submit(function (e) {
 	let form = $(this).serialize();
 	let id = $("#ed_comm_id").val()
 	//console.log("#form : " +JSON.stringify(form));
-	//console.log("#form : " +	$("#ed_comm_id").val());
+	console.log("#form : " +	id);
+	
+
 
 	Swal.fire({
 		title: "กำลังอัพเดชรายการ",
@@ -287,9 +317,10 @@ $("#editNewForm").submit(function (e) {
 					data: form,
 					cache: false,
 					success: function (params) {
-						//console.log(" # #############params " + JSON.stringify(params));
+						console.log(" # #############params " + JSON.stringify(params));
 						var data = [
 							"",
+							"", 	
 							params.comm_name,
 							params.comm_detail,
 							params.comm_lat,
@@ -297,15 +328,29 @@ $("#editNewForm").submit(function (e) {
 							params.comm_id,
 						];
 						// //draw datatable
-						let table = $(".dt-datatable").DataTable();
-						let rowNode = table.row.add(data).draw().node();
+						var table = $(".dt-datatable").DataTable();
+						let editDOM = $(this);
+					
+						//var x = table.row(editDOM.parents("tr")).remove().draw();
+						// var x = table.row(editDOM.parents("tr").data());
+						// console.log(" # x " + JSON.stringify(x));
+
+						//var removingRow = $(this).closest('tr');
+						table.row(editDOM.parents("tr")).remove().draw();
+						let rowNode = table.row.add(data).draw();
 						
+						numTable(table);
+						//let rowNode = table.row.add(data).draw();
+						// var table = $(".dt-datatable").DataTable();
+						// table.draw();
 						//rest form
 						$(":reset").trigger("click");
+
 					},
 				});
 			}
 		});
+		
 });
 
 

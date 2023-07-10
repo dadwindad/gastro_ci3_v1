@@ -28,6 +28,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
+                                    <th></th>
                                     <th>ชุมชน</th>
                                     <th>รายละเอียด</th>
                                     <th></th>
@@ -58,6 +59,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
+                                    <th></th>
                                     <th></th>
                                     <th>ชุมชน</th>
                                     <th>รายละเอียด</th>
@@ -143,6 +145,24 @@
                     </div>
                 </form>
 
+                <!-- limit file upload starts -->
+                <div class="col-12">
+                    <div class="card">
+                        <!-- <div class="card-header">
+                                <h4 class="card-title">ไฟล์ jpg ขนาดไม่เกิน 500kb</h4>
+                            </div> -->
+                        <div class="card-body">
+                            <p class="card-text">
+                                ไฟล์ jpg ขนาดไม่เกิน 2MB จำนวน 4 รูป
+                            </p>
+                            <form action="#" class="dropzone dropzone-area" id="dpz-file-limits">
+                                <div class="dz-message">วางไฟล์ที่นี่</div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- limit file upload ends -->
+
             </div>
         </div>
     </div>
@@ -203,6 +223,24 @@
                             aria-label="Close">ยกเลิก</button>
                     </div>
                 </form>
+
+                <!-- limit file upload starts -->
+                <div class="col-12">
+                    <div class="card">
+                        <!-- <div class="card-header">
+                                <h4 class="card-title">ไฟล์ jpg ขนาดไม่เกิน 500kb</h4>
+                            </div> -->
+                        <div class="card-body">
+                            <p class="card-text">
+                                ไฟล์ jpg ขนาดไม่เกิน 2MB จำนวน 4 รูป
+                            </p>
+                            <form action="#" class="dropzone dropzone-area" id="ed_dpz-file-limits">
+                                <div class="dz-message">วางไฟล์ที่นี่</div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- limit file upload ends -->
 
             </div>
         </div>
